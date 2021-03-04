@@ -2,6 +2,10 @@
 
 function send_email(){
 
+
+
+    require '../PHPMailer/PHPMailerAutoload.php'; 
+
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
 
@@ -10,12 +14,12 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;*/
 
 //Load Composer's autoloader
-require 'vendor/autoload.php';
+//require 'vendor/autoload.php';
 
 //Instantiation and passing `true` enables exceptions
 $mail = new PHPMailer(true);
 
-require '../../PHPMailer/PHPMailerAutoload.php';
+//echo PHPMailer::ENCRYPTION_STARTTLS;
 
 try {
     //Server settings
@@ -25,11 +29,11 @@ try {
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
     $mail->Username   = 'stevo.programming@gmail.com';                     //SMTP username
     $mail->Password   = 'Govedna1982';                               //SMTP password
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+    $mail->SMTPSecure = 'ssl';//PHPMailer::ENCRYPTION_STARTTLS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
     $mail->Port       = 465;                                    //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
     //Recipients
-    $mail->setFrom('no-reply@smiljanko.gmail.com', 'Smiljan');
+    $mail->setFrom('no-reply@gmail.com', 'Smiljan');
     $mail->addAddress('stevo.programming@gmail.com', 'Stevo');     //Add a recipient
     //$mail->addAddress('ellen@gmail.com');               //Name is optional
     $mail->addReplyTo('info@gmail.com', 'Information');

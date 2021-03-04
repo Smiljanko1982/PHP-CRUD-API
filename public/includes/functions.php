@@ -53,7 +53,7 @@ function redirect($url)
 //Function to display session messages
 
 function set_msg($msg)
-{ 
+{
     if (empty($msg)) {          //"Welcome to your account";
         $msg = "";
     } else {
@@ -67,6 +67,92 @@ function display_msg()
 
         echo $_SESSION['setmsg'];
 
-        unset($_SESSIO['setmsg']);
+        unset($_SESSION['setmsg']);
+    }
+}
+
+function process_registration()
+{
+    if (isset($_POST['submit_registration'])) {
+
+        //echo 'is send';
+
+        $raw_name = clean($_POST['name']);
+        $raw_sex =  clean($_POST['sex']);
+        $raw_email = clean($_POST['email']);
+        $raw_password = clean($_POST['password']);
+
+        $cl_name = sanitize($raw_name);
+        $cl_sex = sanitize($raw_sex);
+        $cl_email = val_email($raw_email);
+        $cl_password = sanitize($raw_password);
+
+        //Hashed Password
+        $hashed_password = hash_pwd($cl_password);
+
+        //Check for right format image
+        $allowed_image = array('png', 'jpeg', 'jpg', 'bmp');
+
+        $raw_image = $_FILES['image']['name'];
+
+        $image_ext = pathinfo($raw_image, PATHINFO_EXTENSION);
+
+        if (!in_array($image_ext, $allowed_image)) {
+
+           redirect('register.php');
+
+            set_msg('<div class="alert alert-danger text-center">
+            <a href="#" class="close" data-dismiss="alert" ariel-label="close">&times;</a>
+            <strong>Warning!</strong> Sorry the file type is not allowed. Please try again!
+          </div>');
+        } else {
+            //attach random value bettween from 1000 to 1000000 to the file
+            $new_image = rand(1000, 100000) . "_" . $_FILES['image']['name'];
+
+            //Temporary folder for file
+            $temp_folder = $_FILES['image']['tmp_name'];
+
+            // Will change the filename to lower cases
+            $new_image_name = strtolower($new_image);
+
+            //Final image in for of a string
+            $cl_image = str_replace('', '_', $new_image_name);
+
+            $folder = "uploaded_image/";
+
+            if (move_uploaded_file($temp_folder, $folder.$cl_image)) {
+
+                require_once('pdo.php');
+                //Instanciating our object from the dbase class
+                $db = new dbase;
+
+                $db->query('INSERT INTO users(id, fullname, sex, password, image, email) VALUES(NULL, :fullname, :sex, :password, :image, :email)');
+                
+
+                $db->bind(':fullname', $cl_name, PDO::PARAM_STR);
+                $db->bind(':sex', $cl_sex, PDO::PARAM_STR);
+                $db->bind(':password', $hashed_password, PDO::PARAM_STR);
+                $db->bind(':image', $cl_image, PDO::PARAM_STR);
+                $db->bind(':email', $cl_email, PDO::PARAM_STR);
+                print_r($db);
+
+                $run = $db->execute();
+
+                if ($run) {
+
+                    redirect('login.php');
+
+                    set_msg('<div class="alert alert-success">
+                    <a href="#" class="close" data-dismiss="alert" ariel-label="close">&times;</a>
+                    <strong>Success!</strong> Registration successfull. Please Login;
+                  </div>');
+                } else {
+                    echo ('<div class="alert alert-danger" text-center>
+                    <a href="#" class="close" data-dismiss="alert" ariel-label="close">&times</a>
+                    <strong>Sorry!</strong> Registration not successfull. Please try again;
+                  </div>');
+                }
+            }
+        }
     }
 }

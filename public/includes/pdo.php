@@ -58,14 +58,36 @@ class dbase
     //Method to handle bind values, but statement has to be correct!!!!
 
     //Binds a value to a parameter
-    
+    public function bind($param, $value, $type){
+
+        $this->stmt->bindValue($param,$value,$type);
+
+    }   
 
 
     //Method to execute/run our statement
 
-    //Method to fetch single value 
+    public function execute(){
+
+        return $this->stmt->execute();
+
+    }
+
+    //Method to fetch single value
+    
+    public function fetchSinge(){
+
+        $this->execute();
+
+        return $this->stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
     //Method to fetch multiple values
+    public function fetchMultiple(){
+        $this->execute();
+
+        return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }
 

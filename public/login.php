@@ -1,8 +1,13 @@
-<?php include('includes/header.php'); ?>
+<?php include('includes/header.php');
+include('includes/config.php');
+?>
 
 
   <div class="row">
       <div class="col-md-4 col-md-offset-4">
+
+      <?php display_msg() ?>
+
           <p class=""><a class="pull-right" href="register.php"> Register</a></p><br>
       </div>
       <div class="col-md-4 col-md-offset-4">
