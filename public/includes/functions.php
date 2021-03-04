@@ -99,11 +99,11 @@ function process_registration()
 
         if (!in_array($image_ext, $allowed_image)) {
 
-           redirect('register.php');
+            redirect('register.php');
 
-            set_msg('<div class="alert alert-danger text-center">
-            <a href="#" class="close" data-dismiss="alert" ariel-label="close">&times;</a>
-            <strong>Warning!</strong> Sorry the file type is not allowed. Please try again!
+            set_msg('<div class="alert alert-danger">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Warning!</strong> Sorry, the file type is not allowed. Please try again!
           </div>');
         } else {
             //attach random value bettween from 1000 to 1000000 to the file
@@ -120,14 +120,31 @@ function process_registration()
 
             $folder = "uploaded_image/";
 
-            if (move_uploaded_file($temp_folder, $folder.$cl_image)) {
+            require_once('pdo.php');
+            //Instanciating our object from the dbase class
+            $db = new dbase;
 
-                require_once('pdo.php');
-                //Instanciating our object from the dbase class
-                $db = new dbase;
+            //Check if user already exist
+            $db->query('SELECT * FROM users WHERE email = :email');
+
+            $db->bind(':email', $cl_email, PDO::PARAM_STR);
+
+            $get_user = $db->fetchSingle();
+
+            if ($get_user > 0) {
+
+                redirect('login.php');
+
+                set_msg('<div class="alert alert-danger text-center" >
+                    <a href="#" class="close" data-dismiss="alert" ariel-label="close">&times</a>
+                    <strong>Hi !</strong> You have already registered or your email is already taken. Please go to Login or try register with different mail. Thank You.
+                  </div>');
+            } elseif (move_uploaded_file($temp_folder, $folder . $cl_image)) {
+
+
 
                 $db->query('INSERT INTO users(id, fullname, sex, password, image, email) VALUES(NULL, :fullname, :sex, :password, :image, :email)');
-                
+
 
                 $db->bind(':fullname', $cl_name, PDO::PARAM_STR);
                 $db->bind(':sex', $cl_sex, PDO::PARAM_STR);
@@ -142,15 +159,15 @@ function process_registration()
 
                     redirect('login.php');
 
-                    set_msg('<div class="alert alert-success">
+                    set_msg('<div class="alert alert-success text-center">
                     <a href="#" class="close" data-dismiss="alert" ariel-label="close">&times;</a>
-                    <strong>Success!</strong> Registration successfull. Please Login;
+                    <strong>Success!</strong> Registration successfull. Please Login.
                   </div>');
                 } else {
-                    echo ('<div class="alert alert-danger" text-center>
+                    echo '<div class="alert alert-danger text-center" >
                     <a href="#" class="close" data-dismiss="alert" ariel-label="close">&times</a>
-                    <strong>Sorry!</strong> Registration not successfull. Please try again;
-                  </div>');
+                    <strong>Sorry!</strong> Registration not successfull. Please try again.
+                  </div>';
                 }
             }
         }

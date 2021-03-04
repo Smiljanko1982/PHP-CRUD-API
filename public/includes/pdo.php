@@ -75,7 +75,7 @@ class dbase
 
     //Method to fetch single value
     
-    public function fetchSinge(){
+    public function fetchSingle(){
 
         $this->execute();
 

@@ -24,23 +24,23 @@ include('includes/config.php');
 if (isset($_POST['submit_login'])) {
 
   $raw_name           =   clean($_POST['name']);
-    $raw_sex            =   clean($_POST['sex']);
-    $raw_email          =   clean($_POST['username']);
-    $raw_password       =   clean($_POST['password']);
-    
-    
-    $c_name             =   sanitize($raw_name);
-    $c_sex              =   sanitize($raw_sex);
-    $c_email            =   val_email($raw_email);
-    $c_password         =   sanitize($raw_password);
-    
-    //$hashed_Pass        =   hashed_password($c_password);
-    
-    
-    
-    //Collect Image
-    $c_img              =   $_FILES['image']['name'];
-    $c_img_tmp          =   $_FILES['image']['tmp_name'];
+  $raw_sex            =   clean($_POST['sex']);
+  $raw_email          =   clean($_POST['username']);
+  $raw_password       =   clean($_POST['password']);
+
+
+  $c_name             =   sanitize($raw_name);
+  $c_sex              =   sanitize($raw_sex);
+  $c_email            =   val_email($raw_email);
+  $c_password         =   sanitize($raw_password);
+
+  //$hashed_Pass        =   hashed_password($c_password);
+
+
+
+  //Collect Image
+  $c_img              =   $_FILES['image']['name'];
+  $c_img_tmp          =   $_FILES['image']['tmp_name'];
 
   //move image to permanent location
   move_uploaded_file($c_img_tmp, "uploaded_image/$c_img");
@@ -94,11 +94,11 @@ if (isset($_POST['submit_login'])) {
 
 <div class="row">
   <div class="col-md-4 col-md-offset-4">
+    <?php display_msg(); ?>
     <p class=""><a class="pull-right" href="../index.php"> Login</a></p><br>
   </div>
   <div class="col-md-4 col-md-offset-4">
-    <form class="form-horizontal" role="form" method="post" action="<?php process_registration(); ?>" 
-    enctype="multipart/form-data">
+    <form class="form-horizontal" role="form" method="post" action="<?php process_registration(); ?>" enctype="multipart/form-data">
       <div class="form-group">
         <label class="control-label col-sm-2" for="name"></label>
         <div class="col-sm-10">
