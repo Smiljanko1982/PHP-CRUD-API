@@ -4,7 +4,7 @@
  
 
   
-<?php include("includes/functions.php") ?>
+<?php include("includes/config.php") ?>
    
 
 <div class="container">
