@@ -17,14 +17,14 @@
         <div class="progress">
           <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="50"
           aria-valuemin="0" aria-valuemax="100" style="width:50%; background-color: #6c1f74;">
-          <p style="color:white; font-size=14px;">50% Profile Completed (update profile) </p>
+          <p style="color:white; font-size:14px;">50% Profile Completed (update profile) </p>
           </div>
         </div>
      
         <div class="progress" style="">
           <div class="progress-bar progress-bar-success progress-bar-success" role="progressbar" aria-valuenow="100"
           aria-valuemin="0" aria-valuemax="100" style="width:100%; background-color: #6c1f74;">
-          <p style="color:white; font-size=14px;">100% Profile Completed (success)</p>
+          <p style="color:white; font-size:14px;">100% Profile Completed (success)</p>
           </div>
         </div> 
 

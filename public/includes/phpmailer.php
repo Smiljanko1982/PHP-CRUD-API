@@ -3,7 +3,7 @@
 include_once('pass.php');
 
 
-function send_email()
+function send_email($email, $fullname)
 {
     $file = 'file.txt';
 
@@ -26,11 +26,11 @@ function send_email()
     $mail->Username   = get_username($file);                     //SMTP username
     $mail->Password   = get_password($file);                               //SMTP password
     $mail->SMTPSecure = 'ssl';//PHPMailer::ENCRYPTION_STARTTLS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-    $mail->Port       = 465;                                    //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+    $mail->Port       = 465;                                   //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
     //Recipients
-        $mail->setFrom('stevo.programming@gmail.com', 'Smiljan');
-        $mail->addAddress('stevo.programming@gmail.com', 'Stevo Svizec');     //Add a recipient
+        $mail->setFrom('no-reply-register-form@gmail.com', 'Shop');
+        $mail->addAddress($email);     //Add a recipient
         //$mail->addAddress('ellen@gmail.com');               //Name is optional
         $mail->addReplyTo('info@gmail.com', 'Information');
         /*$mail->addCC('cc@gmail.com');
@@ -47,14 +47,13 @@ function send_email()
         $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
         $mail->send();
-        echo("Message has been sent successfully to <strong>" . $mail->Username ."</strong>");
+        //echo("Message has been sent successfully to <strong>" . $email ."</strong>, " . $fullname );
         set_msg('<div class="alert alert-success text-center">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    <strong>Success!</strong> "Message has been sent <strong>"' . $mail->Username .'"</strong>
+    <strong>Success!</strong> "Message has been sent <strong>"' . $email .'"</strong> " ' . $fullname . '
   </div>');
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
 }
-
-//send_email();
+//send_email('smiljanko@gmail.com');

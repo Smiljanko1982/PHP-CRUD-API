@@ -9,7 +9,21 @@ if(isset($_SESSION['user_logged_in'])){
 }else{
     
     //Do nothing
-    
+
+/*
+    $userTokken č $_POST['name'].$_POST['name'].$_POST['name'].$_POST['name'].$_POST['name'].$_POST['name'].$_POST['name']
+    md5()
+
+
+    sql querry
+
+
+    if (userStatus -- "admin") {
+      
+        include admin.php
+
+    }
+   */ 
 }
 
 
@@ -92,4 +106,4 @@ if(isset($_SESSION['user_logged_in'])){
   </div>
 </div>
   
-<?php include('includes/footer.php'); ?>  
+<?php include('includes/footer.php'); ?>
