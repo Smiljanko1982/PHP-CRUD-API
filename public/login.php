@@ -4,7 +4,7 @@ include('includes/config.php');
 ?>
 
   <div class="row">
-      <div class="col-md-6 col-md-offset-6">
+      <div class="col-md-6 col-md-offset-3">
 
       <?php display_msg();
       ?>

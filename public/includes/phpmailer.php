@@ -8,18 +8,19 @@ function send_email($email, $fullname)
     $file = 'file.txt';
 
 
-    require '../../PHPMailer/PHPMailerAutoload.php';
+    require '../PHPMailer/PHPMailerAutoload.php';
 
     require_once('functions.php');
 
     //Instantiation and passing `true` enables exceptions
-    $mail = new PHPMailer(true);
+    $mail = new PHPMailer(false);
 
     //echo PHPMailer::ENCRYPTION_STARTTLS;
 
     try {
         //Server settings
     //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+    $mail->SMTPDebug  = 0;
     $mail->isSMTP();                                            //Send using SMTP
     $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
@@ -43,15 +44,16 @@ function send_email($email, $fullname)
         //Content
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = 'Here is the subject';
-        $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+        $mail->Body    = '<div class="alert alert-success text-center">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Success!</strong> "Message has been sent <strong>"' . $email .'"</strong> " ' . $fullname . '
+      </div>';
+        $mail->AltBody = '<div class="alert alert-success text-center">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Success!</strong> "Message has been sent <strong>"' . $email .'"</strong> " ' . $fullname . '
+      </div>';
 
         $mail->send();
-        //echo("Message has been sent successfully to <strong>" . $email ."</strong>, " . $fullname );
-        set_msg('<div class="alert alert-success text-center">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    <strong>Success!</strong> "Message has been sent <strong>"' . $email .'"</strong> " ' . $fullname . '
-  </div>');
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
